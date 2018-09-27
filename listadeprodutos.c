@@ -57,6 +57,18 @@ int consultarValorUnitario(PLISTA l, int id){
 
 bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
 
+  PONT x, aux;
+
+  x = (PONT) malloc(sizeof(REGISTRO));
+
+  if(tamanho(PLISTA* l) == 0){
+    l -> cabeca = *id;
+    aux -> proxProd = NULL;
+
+  };
+  while (aux -> proxProd != NULL) { //CONDIÇÃO PARA BUSCAR O ELEMENTO ANTERIOR AO QUE DEVEMOS INSERIR.
+    aux = aux -> proxProd;
+  }
   /* COMPLETAR */
 
   return false;
