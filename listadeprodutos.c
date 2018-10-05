@@ -63,6 +63,9 @@ PONT buscarValorTotal(PLISTA* l, int valorTotal, PONT* ant){
 
 
 bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
+  /* Teste de validade dos valores recebidos */
+  if(id <= 0 || tipo <= 0 || quantidade <= 0 || valor <= 0) return false;
+
   /* Busca do produto pelo ID */
   i = buscarID(PLISTA* l, id);
   if(i != NULL) return false; // Retorna false caso ja exista um produto com o mesmo ID.
