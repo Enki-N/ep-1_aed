@@ -51,35 +51,32 @@ int consultarValorUnitario(PLISTA l, int id){
   return 0;
 }
 
-
-
+PONT buscarValorTotal(PLISTA* l, int valorTotal, PONT* ant){
+  PONT atual = l -> cabeca -> proxProd;
+  while (atual) {
+    if((atual -> quantidade * atual -> valorUnitario) < valorTotal) return atual;
+    *ant = atual;
+    atual = atual -> proxProd;
+  }
+  return NULL;
+}
 
 
 bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
-  /* PONTEIROS QUE AUXILIARAM NA INCLUSÂO DO NOVO REGISTRO */
-  PONT x, aux;
+  /* Busca da posição certa do REGISTRO */
+  x = buscarValorTotal(PLISTA* l, quantidade*valor, &ant);
+  if(!x) return false;
 
-  /* ATRIBUINDO O ESPAÇO DE UM REGISTRO PARA NOVO E COLOCANDO OS VALORES NOS CAMPOS CORRESPONDENTES */
-  novo = (PONT) malloc(sizeof(REGISTRO));
-  novo.id = id;
-  novo.tipo = tipo;
-  novo.quantidade = quantidade;
-  novo.valorUnitario = valor;
+  /* Posicionando os valores e ajustando os ponteiros envolvidos */
+  x = (PONT) malloc(sizeof(REGISTRO));
+  x -> id = id;
+  x -> tipo = tipo;
+  x -> quantidade = quantidade;
+  x -> valor = valor;
+  x -> proxProd = ant -> proxProd;
+  ant -> proxProd = x;
 
-  /* TESTANDO SE A LISTA ESTA VAZIA OU NÂO */
-  if(tamanho(PLISTA* l) == 0){
-    l -> cabeca = *id;
-    aux -> proxProd = NULL;
-
-  };
-
-  /* PERCORRENDO A LISTA PARA DESCOBRIR ONDE COLOCAR NO NOVO REGISTRO */
-  while (aux -> proxProd != NULL) { //CONDIÇÃO PARA BUSCAR O ELEMENTO ANTERIOR AO QUE DEVEMOS INSERIR.
-    aux = aux -> proxProd;
-  }
-  /* COMPLETAR */
-
-  return false;
+  return true;
 }
 
 
