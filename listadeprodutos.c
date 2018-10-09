@@ -51,7 +51,7 @@ int consultarValorUnitario(PLISTA l, int id){
   return 0;
 }
 
-PONT buscarValorTotal(PLISTA* l, int valorTotal, PONT* ant){
+PONT buscarValorTotal(PLISTA l, int valorTotal, PONT* ant){
   PONT atual = l -> cabeca -> proxProd;
   while (atual) {
     if((atual -> quantidade * atual -> valorUnitario) < valorTotal) return atual;
@@ -63,23 +63,24 @@ PONT buscarValorTotal(PLISTA* l, int valorTotal, PONT* ant){
 
 
 bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
+  PONT i, x, ant;
   /* Teste de validade dos valores recebidos */
-  if(id <= 0 || tipo <= 0 || quantidade <= 0 || valor <= 0) return false;
+  //if(id <= 0 || tipo <= 0 || quantidade <= 0 || valor <= 0) return false;
 
   /* Busca do produto pelo ID */
-  i = buscarID(PLISTA* l, id);
-  if(i != NULL) return false; // Retorna false caso ja exista um produto com o mesmo ID.
+  i = buscarID(l, id);
+  //if(i != NULL) return false; // Retorna false caso ja exista um produto com o mesmo ID.
 
   /* Busca da posição certa do REGISTRO */
-  x = buscarValorTotal(PLISTA* l, quantidade*valor, &ant);
-  if(!x) return false;
+  x = buscarValorTotal(l, quantidade*valor, &ant);
+  //if(!x) return false;
 
   /* Posicionando os valores e ajustando os ponteiros envolvidos */
   x = (PONT) malloc(sizeof(REGISTRO));
   x -> id = id;
   x -> tipo = tipo;
   x -> quantidade = quantidade;
-  x -> valor = valor;
+  x -> valorUnitario = valor;
   x -> proxProd = ant -> proxProd;
   ant -> proxProd = x;
 
