@@ -15,6 +15,7 @@ int main() {
   if(res) printf("Insercao retornou true (1)\n");
   else printf("Insercao retornou false (1)\n");
   exibirLog(f);
+/*
   res = inserirNovoProduto(f, 4, 4, 4, 4);
   if(res) printf("Insercao retornou true (3)\n");
   else printf("Insercao retornou false (2)\n");
@@ -53,7 +54,7 @@ int main() {
   else printf("Insercao retornou false (9)\n");
   exibirLog(f);
 
-/*
+
   printf("################# REMOVENDO #######################\n");
   res = removerItensDeUmProduto(f, 4, 1);
   if(res) printf("Remocao retornou true (1)\n");
