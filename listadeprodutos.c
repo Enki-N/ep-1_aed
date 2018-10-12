@@ -63,6 +63,17 @@ PONT buscarValorTotal(PLISTA l, int valorTotal, PONT* ant){
   return NULL;
 }
 
+PONT buscarReg(PLISTA l, int id, PONT* ant){
+  *ant = l->cabeca;
+  PONT atual = l->cabeca->proxProd;
+   while (atual) {
+    if (atual->id == id) return atual;
+    *ant = atual;
+    atual = atual->proxProd;
+  }
+  return NULL;
+}
+
 
 bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
   PONT x, ant;
@@ -88,19 +99,49 @@ bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
   return true;
 }
 
-
-
 bool removerItensDeUmProduto(PLISTA l, int id, int quantidade){
+  PONT x, ant;
+  int valor, tipo, quant;
 
-  /* COMPLETAR */
+  /* Retorna false caso o valor de quantidade recebido seja menor ou igual a zero*/
+  if(quantidade <= 0) return false;
 
-  return false;
+  /* Retorna false caso não exista produto com o id recebido */
+  x = buscarReg(l, id, &ant);
+  if(x == NULL) return false;
+
+  valor = x->valorUnitario;
+  tipo = x->tipo;
+  quant = x->quantidade - quantidade;
+
+  /* Testar se a quantidade recebida é maior que a quantidade real do registro */
+  if(quantidade > x->quantidade) return false;
+
+  /* Se a quantidade for igual a quantidade do REGISTRO, apagar todo */
+  ant->proxProd = x->proxProd;
+  free(x);
+
+  inserirNovoProduto(l, id, tipo, quant, valor);
+
+  return true;
 }
 
 
 bool atualizarValorDoProduto(PLISTA l, int id, int valor){
+  PONT x, ant;
+  int quant, tipo;
 
-  /* COMPLETAR */
+  if(valor <= 0) return false;
 
-  return false;
+  x = buscarReg(l, id, &ant);
+  if(x == NULL) return false;
+
+  quant = x->quantidade;
+  tipo = x->tipo;
+
+  ant->proxProd = x->proxProd;
+  free(x);
+
+  inserirNovoProduto(l, id, tipo, quant, valor);
+  return true;
 }

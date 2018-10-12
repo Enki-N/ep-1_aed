@@ -53,7 +53,7 @@ int main() {
   else printf("Insercao retornou false (9)\n");
   exibirLog(f);
 
-/*
+
   printf("################# REMOVENDO #######################\n");
   res = removerItensDeUmProduto(f, 4, 1);
   if(res) printf("Remocao retornou true (1)\n");
@@ -140,6 +140,5 @@ int main() {
 
 
 
-*/
   return 0;
 }
