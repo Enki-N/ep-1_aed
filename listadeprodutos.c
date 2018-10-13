@@ -51,7 +51,8 @@ int consultarValorUnitario(PLISTA l, int id){
   return 0;
 }
 
-PONT buscarValorTotal(PLISTA l, int valorTotal, PONT* ant){
+/* Busca um REGISTRO pelo valor total */
+PONT buscaValorTotalIns(PLISTA l, int valorTotal, PONT* ant){
   *ant = l->cabeca;
   PONT atual = l->cabeca->proxProd;
 
@@ -63,6 +64,7 @@ PONT buscarValorTotal(PLISTA l, int valorTotal, PONT* ant){
   return NULL;
 }
 
+/* Busca um REGISTRO, mas passando por parãmetro o ponteiro para o REGISTRO anterior */
 PONT buscarReg(PLISTA l, int id, PONT* ant){
   *ant = l->cabeca;
   PONT atual = l->cabeca->proxProd;
@@ -84,9 +86,11 @@ bool inserirNovoProduto(PLISTA l, int id, int tipo, int quantidade, int valor){
   /* Busca do produto pelo ID */
   x = buscarID(l, id);
   if(x != NULL) return false; // Retorna o PONT caso ja exista um produto com o mesmo ID.
+
   /* Busca da posição certa do REGISTRO */
-  x = buscarValorTotal(l, quantidade*valor, &ant);
+  x = buscaValorTotalIns(l, quantidade*valor, &ant);
   if(x != NULL) return false;
+
   /* Posicionando os valores e ajustando os ponteiros envolvidos */
   x = (PONT) malloc(sizeof(REGISTRO));
   x -> id = id;
@@ -110,17 +114,19 @@ bool removerItensDeUmProduto(PLISTA l, int id, int quantidade){
   x = buscarReg(l, id, &ant);
   if(x == NULL) return false;
 
+  /* Guarda os valores do REGISTRO para a inserção */
   valor = x->valorUnitario;
   tipo = x->tipo;
   quant = x->quantidade - quantidade;
 
-  /* Testar se a quantidade recebida é maior que a quantidade real do registro */
+  /* Testa se a quantidade recebida é maior que a quantidade real do registro */
   if(quantidade > x->quantidade) return false;
 
-  /* Se a quantidade for igual a quantidade do REGISTRO, apagar todo */
+  /* Apaga o REGISTRO */
   ant->proxProd = x->proxProd;
   free(x);
 
+  /* Insere o novo RESGITRO na posição certa */
   inserirNovoProduto(l, id, tipo, quant, valor);
 
   return true;
@@ -131,17 +137,23 @@ bool atualizarValorDoProduto(PLISTA l, int id, int valor){
   PONT x, ant;
   int quant, tipo;
 
+  /* Testa se o valor recebido é positivo */
   if(valor <= 0) return false;
 
+  /* Busca o REGISTRO pelo id, alocando o endereço do anterior */
   x = buscarReg(l, id, &ant);
   if(x == NULL) return false;
 
+  /* Guarda os valores do REGISTRO para a inserção */
   quant = x->quantidade;
   tipo = x->tipo;
 
+  /* Apaga o REGISTRO */
   ant->proxProd = x->proxProd;
   free(x);
 
+  /* Faz a inserção do REGISTRO na posição certa */
   inserirNovoProduto(l, id, tipo, quant, valor);
+  
   return true;
 }
